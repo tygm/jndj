@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<%- include("../common/header"); %>
+
+    <body style="    overflow: hidden;">
+        <div id="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- /. NAV SIDE  -->
+                <div id="page-wrapper">
+                    <div class="header">
+                        <h1 class="page-header">
+                            添加活动
+                            <small></small>
+                        </h1>
+
+                    </div>
+
+                    <div id="page-inner" style="width: 100%;height: 500px;padding-top: 0px;min-height: 500px;">
+
+                        <button type="button" class="btn ladda-button" id="btnloading" 
+                        data-style="contract" onclick="login()" style="position: absolute;left:45%;top:25%;width:50px;height: 50px;border-radius: 100px;background: #B6B6B6">
+                            <span class="ladda-label"></span>
+                        </button>
+                        <iframe onload="stop()" src="/app/index.html" id="iframe1" style="width: 100%;height: 100%;border: none;"></iframe>
+                        <!-- /. PAGE INNER  -->
+                    </div>
+                    <!-- /. PAGE WRAPPER  -->
+                </div>
+                <!-- /. WRAPPER  -->
+                <!-- JS Scripts-->
+                <!-- jQuery Js -->
+                <%- include("../common/footerJs")%>
+                    <script src="https://cdn.bootcss.com/Ladda/1.0.6/spin.min.js"></script>
+                    <link href="https://cdn.bootcss.com/Ladda/1.0.6/ladda-themeless.min.css" rel="stylesheet">
+                    <script src="https://cdn.bootcss.com/Ladda/1.0.6/ladda.jquery.min.js"></script>
+                    <link href="https://cdn.bootcss.com/Ladda/1.0.6/ladda.min.css" rel="stylesheet">
+                    <script src="https://cdn.bootcss.com/Ladda/1.0.6/ladda.min.js"></script>
+                    <script>
+                        $("#iframe1").attr("src", "/app/index.html?t=" + new Date().getTime());
+                        Ladda.bind( 'input[type=button]' );
+                        var l = Ladda.create( document.querySelector( '#btnloading' ) );
+                        l.start();
+                        function stop(){
+                            l.stop();
+                            $("#btnloading").remove();
+                        }
+                    </script>
+
+    </body>
+
+</html>

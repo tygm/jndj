@@ -1,0 +1,204 @@
+<nav class="navbar navbar-default top-navbar" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index">
+            <strong>
+                <%=webTitle%>
+            </strong>
+        </a>
+
+        <div id="sideNav" href="">
+            <i class="fa fa-caret-right"></i>
+        </div>
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="" aria-expanded="false">
+                <span>欢迎您，</span>
+                <%=user.loginname%>
+                    <i class="fa fa-user fa-fw"></i>
+                    <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <!-- <li>
+                    <a href="">
+                        <i class="fa fa-lock fa-fw"></i> 修改密码</a>
+                </li> -->
+                <li class="divider"></li>
+
+                <li>
+                    <a href="/admin/logout">
+                        <i class="fa fa-sign-out fa-fw"></i> 退出登录</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+</nav>
+<!--/. NAV TOP  -->
+<nav class="navbar-default navbar-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+
+            <li>
+                <a href="index">
+                    <i class="fa fa-dashboard"></i> 首页</a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-desktop"></i> 轮播图管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/banner">轮播图列表</a>
+                    </li>
+                    <li>
+                        <a href="/admin/bannerAdd">添加轮播图</a>
+                    </li>
+                </ul>
+            </li>
+            <li style="display: none">
+                <a href="/admin/comments">
+                    <i class="fa fa-bar-chart-o"></i>评论管理
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-qrcode"></i>文章管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/artical">文章列表</a>
+                    </li>
+                    <li>
+                        <a href="/admin/articalAdd">添加文章</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/admin/user">
+                    <i class="fa fa-user"></i> 用户列表
+                </a>
+                <!-- <ul class="nav nav-second-level">
+                    <li>
+                        <a href="">用户列表</a>
+                    </li>
+                    <li>
+                        <a href="">添加用户</a>
+                    </li>
+                </ul> -->
+            </li>
+
+            <li>
+                <a href="/admin/yearassessment">
+                    <i class="fa fa-table"></i> 工作考核
+                </a>
+                <!-- <ul class="nav nav-second-level">
+                    <li>
+                        <a href="">用户列表</a>
+                    </li>
+                    <li>
+                        <a href="">添加用户</a>
+                    </li>
+                </ul> -->
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-edit"></i> 任务管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/task">任务列表</a>
+                    </li>
+                    <!-- <li>
+                        <a href="/admin/taskAdd">添加任务</a>
+                    </li> -->
+                </ul>
+            </li>
+
+            <!-- <li>
+                <a href="/admin/activityshyk">
+                    <i class="fa fa-bar-chart-o"></i>活动列表
+                </a>
+            </li> -->
+            <li>
+                <a href="">
+                    <i class="fa fa-sitemap"></i> 活动管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/activityshyk">活动列表</a>
+                    </li>
+                    <li>
+                        <a href="/admin/activityshykadd">添加活动</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li>
+                <a href="">
+                    <i class="fa fa-sitemap"></i> 活动管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/activity">活动列表</a>
+                    </li>
+                    <li>
+                        <a href="/admin/activityAdd">添加活动</a>
+                    </li>
+                </ul>
+            </li> -->
+
+
+            <li>
+                <a href="">
+                    <i class="fa fa-bell"></i> 通知管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/notification">通知列表</a>
+                    </li>
+                    <li>
+                        <a href="/admin/notificationAdd">添加通知</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<script>
+    let menuName = "<%=menuName%>";
+    let subMenuName = "<%=subMenuName%>";
+    if (menuName) {
+        var menus = document.getElementById("main-menu").children;
+        for (var i = 0; i < menus.length; i++) {
+            if (menus[i].innerText && menus[i].innerText.indexOf(menuName) > -1) {
+                menus[i].setAttribute("class", "active active-menu");
+                if (subMenuName) {
+                    var subMenus = menus[i].children[1].children;
+                    for (var j = 0; j < subMenus.length; j++) {
+                        if (subMenus[j].innerText && subMenus[j].innerText.indexOf(subMenuName) > -1) {
+                            subMenus[j].children[0].setAttribute("class", "active-menu");
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>

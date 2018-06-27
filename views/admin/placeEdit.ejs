@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<%- include("../common/header"); %>
+
+    <body>
+        <div id="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- /. NAV SIDE  -->
+                <div id="page-wrapper">
+                    <div class="header">
+                        <h1 class="page-header">
+                            编辑地点
+                            <small></small>
+                        </h1>
+
+                    </div>
+
+                    <div id="page-inner">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        编辑
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-bottom">
+                                                <form id="form" role="form" method="POST" action="/place/edit"  enctype="multipart/form-data">
+                                                    <div class="form-group">
+                                                        <label>名称</label>
+                                                        <input name="name" value="<%=results.name%>" class="form-control" placeholder="">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>描述</label>
+                                                        <textarea name="description" value="<%=results.descs%>" class="form-control" placeholder=""><%=results.descs%></textarea>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>类型</label>
+                                                        <select name="type" class="form-control" value="<%=results.type%>">
+                                                            <option value="3">景点</option>
+                                                            <option value="2">酒店</option>
+                                                            <option value="1">餐饮</option>
+                                                            <option value="4">商场</option>
+                                                            <option value="7">公厕</option>
+                                                            <option value="5">交通</option>
+                                                            <option value="6">演艺娱乐</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>经度</label>
+                                                        <input name="longitude" value="<%=results.longitude%>" type="number"  step="0.0000001" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>纬度</label>
+                                                        <input name="latitude" type="number" step="0.0000001" value="<%=results.latitude%>" class="form-control" placeholder="">
+                                                    </div>
+                                                    <input name="id" type="hidden" value="<%=id%>" class="form-control" placeholder="">
+                                                    <div class="form-group">
+                                                        <label>地址</label>
+                                                        <input name="address" value="<%=results.address%>" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>图片</label>
+                                                        <input name="file1" type="file" multiple="multiple" accept="image/*" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>联系方式</label>
+                                                        <input name="contact" value="<%=results.contact%>" class="form-control" placeholder="">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-default btn-block">提交</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- /.row (nested) -->
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                    </div>
+                    <!-- /. PAGE INNER  -->
+                </div>
+                <!-- /. PAGE WRAPPER  -->
+        </div>
+        <!-- /. WRAPPER  -->
+        <!-- JS Scripts-->
+        <!-- jQuery Js -->
+        <script src="../assets/js/jquery-1.11.1.min.js"></script>
+
+        <script>
+            // jQuery(document).ready(function () {
+
+            //     /*
+            //         Fullscreen background
+            //     */
+            //     /*
+            //         Form validation
+            //     */
+            //     $('input').on(
+            //         'focus',
+            //         function () {
+            //             $(this).removeClass('input-error');
+            //         });
+            //     $('#form').on('submit', function (e) {
+            //         $(this).find('input, textarea').each(function () {
+            //             if ($(this).val() == "") {
+            //                 e.preventDefault();
+            //                 $(this).addClass('input-error');
+            //             } else {
+            //                 $(this).removeClass('input-error');
+            //             }
+            //         });
+
+            //     });
+
+
+            // });
+        </script>
+        <script src="../assets/js/bmob-min.js"></script>
+        <!-- Bootstrap Js -->
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <!-- Metis Menu Js -->
+        <script src="../assets/js/jquery.metisMenu.js"></script>
+        <!-- Custom Js -->
+        <script src="../assets/js/custom-scripts.js"></script>
+        <script src="../assets/js/scripts.js"></script>
+
+
+
+    </body>
+
+</html>

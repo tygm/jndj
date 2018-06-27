@@ -1,0 +1,63 @@
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="../assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="../assets/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Js -->
+<script src="../assets/js/jquery.metisMenu.js"></script>
+<!-- Morris Chart Js -->
+<script src="../assets/js/morris/raphael-2.1.0.min.js"></script>
+<script src="../assets/js/morris/morris.js"></script>
+
+
+<script src="../assets/js/easypiechart.js"></script>
+<script src="../assets/js/easypiechart-data.js"></script>
+
+<script src="../assets/js/Lightweight-Chart/jquery.chart.js"></script>
+
+<script src="../assets/js/module.js"></script>
+<script src="../assets/js/hotkeys.js"></script>
+<script src="../assets/js/uploader.js"></script>
+<script src="../assets/wangeditor/wangEditor.min.js"></script>
+
+
+<!-- Custom Js -->
+<script src="../assets/js/custom-scripts.js"></script>
+<script>
+    function enableWangEditor(contentDivId, textareaId,previousContent) {
+        var E = window.wangEditor
+        var editor = new E("#"+contentDivId);
+        var $text1 = $("#"+textareaId);
+        $text1.hide();
+        $("#"+contentDivId).css("z-index","10");
+        editor.customConfig.menus = [
+            'head', // 标题
+            'bold', // 粗体
+            'fontSize', // 字号
+            'fontName', // 字体
+            'italic', // 斜体
+            'underline', // 下划线
+            'foreColor', // 文字颜色
+            'backColor', // 背景颜色
+            //'link', // 插入链接
+            'list', // 列表
+            'justify', // 对齐方式
+            'quote', // 引用
+            'emoticon', // 表情
+            'table', // 表格
+            'image', // 插入图片
+        ]
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $text1.val(html)
+        }
+        editor.customConfig.uploadImgServer = '/user/fileupload'
+        editor.create();
+        if(previousContent){
+            editor.txt.html(previousContent);
+        }
+        $text1.val(editor.txt.html())
+    }
+</script>

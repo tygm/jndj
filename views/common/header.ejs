@@ -1,0 +1,57 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%=webTitle%>
+    </title>
+    <!-- Bootstrap Styles-->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="../assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="../assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="../assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="../assets/css/simditor.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link rel="stylesheet" href="../assets/js/Lightweight-Chart/cssCharts.css">
+    <link rel="stylesheet" href="../assets/wangeditor/wangEditor.min.css">
+    <script>
+        Date.prototype.format = function (fmt) { // author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, // 月份
+                "d+": this.getDate(), // 日
+                "h+": this.getHours(), // 小时
+                "m+": this.getMinutes(), // 分
+                "s+": this.getSeconds(), // 秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+                "S": this.getMilliseconds() // 毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[
+                    k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+    <style>
+        .navbar,.navbar-side{
+            z-index: 11111;
+        }
+        form .input-error {
+            border-color: #de615e;
+        }
+
+        .autoScale {
+            transition-property: all;
+            transition-duration: 0.5s;
+            transition-timing-function: ease;
+            margin-right: 5px;
+        }
+
+        .autoScale:hover {
+            transform: scale(5);
+        }
+    </style>
+</head>

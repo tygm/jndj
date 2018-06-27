@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<%- include("../common/header")%>
+
+    <body>
+        <div id="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- /. NAV SIDE  -->
+                <div id="page-wrapper">
+                    <div class="header">
+                        <h1 class="page-header">
+                            地点列表
+                            <small>地点列表</small>
+                        </h1>
+                    </div>
+
+                    <div id="page-inner">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Advanced Tables -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a class="btn cst_first btn-primary ">&lt;&lt;&lt;首页</a>
+                                        <a class="btn cst_pre btn-primary ">&lt;上一页</a>
+                                        <span id="pageInfo"></span>
+                                        <a class="btn cst_next btn-primary ">下一页&gt;</a>
+                                        <a class="btn cst_last btn-primary ">尾页&gt;&gt;&gt;</a>
+                                        <input id="keywords" style="border:1px solid #ccc;padding:5px;" />
+                                        <a class="btn cst_first btn-primary" (click)="search()">搜索</a>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                <thead>
+                                                    <tr>
+                                                        <th>编辑</th>
+                                                        <th>名称</th>
+                                                        <th>地址</th>
+                                                        <th>图片</th>
+                                                        <th>联系方式</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tableBody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Advanced Tables -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer>
+                        <%- include("../common/footer") %>
+                    </footer>
+                </div>
+                <!-- /. PAGE INNER  -->
+        </div>
+
+        <%- include("../common/footerJs")%>
+
+            <script>
+                var pageSize = 10;
+                var pageNo = 0;
+                var total = 0;
+                var totalPage = 0;
+                var tpl = $(
+                    '<tr class="odd gradeX"><td><i onclick="edit(this)" title="编辑" class="fa fa-edit" style="font-size: 22px;color: green;"></i>' +
+                    '</td><td></td><td></td><td></td><td>Win 95+</td></tr>'
+                );
+
+                function query() {
+                    $.ajax({
+                        "url": "/place/list?pageNo=" + pageNo + "&pageSize=10&keywords=" + document.getElementById(
+                            "keywords").value || "",
+                        success: function (data) {
+                            var list = data.results;
+                            $(".tableBody").html("");
+                            for (var i = 0; i < list.length; i++) {
+                                var tr = tpl.clone();
+                                $($("td", tr)[0]).attr("id", list[i].id);
+                                $("td", tr)[1].innerText = list[i].name;
+                                $("td", tr)[2].innerText = list[i].address;
+                                if (list[i].imgs)
+                                    list[i].imgs.forEach(imgURL => {
+                                        var img = document.createElement("img");
+                                        img.setAttribute("style",
+                                            "width:30px;height:30px;object-fit:cover");
+                                        img.setAttribute("class", "autoScale");
+                                        img.src = imgURL;
+                                        img.onclick = function () {
+                                            window.open(imgURL, "_blank")
+                                        }
+                                        $("td", tr)[3].appendChild(img);
+                                    });
+                                $("td", tr)[4].innerText = list[i].contact;
+                                $(".tableBody").append(tr);
+                            }
+                            total = data.count;
+                            totalPage = Math.floor(total / pageSize);
+                            if (total % pageSize == 0)
+                                totalPage--;
+                            $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" +
+                                pageSize + "条，共" + total + "条");
+                            resetBtnState();
+                        }
+                    });
+                }
+                query();
+
+                function search() {
+                    pageNo = 0;
+                    query();
+                }
+
+                function edit(e) {
+                    window.location.href = "/admin/placeEdit?id=" + $(e).parent().attr("id");
+                }
+
+                function resetBtnState() {
+                    if (pageNo == totalPage) {
+                        $(".cst_next").addClass("disabled");
+                    } else {
+                        $(".cst_next").removeClass("disabled");
+                    }
+                    if (pageNo == 0) {
+                        $(".cst_pre").addClass("disabled");
+                    } else {
+                        $(".cst_pre").removeClass("disabled");
+                    }
+                }
+                $(".cst_first").click(function () {
+                    pageNo = 0;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                });
+
+                $(".cst_pre").click(function () {
+                    pageNo--;
+                    pageNo = pageNo < 0 ? 0 : pageNo;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                })
+
+                $(".cst_next").click(function () {
+                    pageNo++;
+                    pageNo = pageNo > totalPage ? totalPage : pageNo;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                })
+
+                $(".cst_last").click(function () {
+                    pageNo = totalPage;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                })
+                $(document).ready(function () {
+                    query();
+                    resetBtnState();
+                });
+            </script>
+
+            <!-- Custom Js -->
+            <script src="../assets/js/custom-scripts.js"></script>
+
+
+    </body>
+
+</html>

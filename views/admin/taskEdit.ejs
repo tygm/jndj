@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<%- include("../common/header"); %>
+
+    <body>
+        <div id="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- /. NAV SIDE  -->
+                <div id="page-wrapper">
+                    <div class="header">
+                        <h1 class="page-header">
+                            编辑任务
+                            <small></small>
+                        </h1>
+
+                    </div>
+
+                    <div id="page-inner">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        编辑
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-bottom">
+                                                <form id="form" role="form" method="POST" action="/task/edit" enctype="multipart/form-data">
+                                                    <div class="form-group">
+                                                        <label>任务标题</label>
+                                                        <input name="title" value="<%=results.title%>" class="form-control" placeholder="">
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        <label>描述</label>
+                                                        <textarea name="descs" id="content" class="form-control" placeholder="" style="height: 150px;;">
+                                                            <%=results.descs%>
+                                                        </textarea>
+                                                        <div id="contentDiv"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>任务状态</label>
+                                                        <select name="status" class="form-control" value="<%=results.status%>">
+                                                            <option value="1">开启</option>
+                                                            <option value="0">关闭</option>
+                                                        </select>
+                                                    </div>
+                                                    <input name="id" type="hidden" value="<%=id%>" class="form-control" placeholder="">
+
+                                                    <div class="form-group">
+                                                        <label>任务类型</label>
+                                                        <select name="type1" class="form-control" value="<%=results.type1%>">
+                                                            <option value="1">会议任务</option>
+                                                            <option value="2">活动任务</option>
+                                                            <option value="3">学习任务</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>提醒周期</label>
+                                                        <select name="type2" class="form-control" value="<%=results.type2%>">
+                                                            <option value="1">临时任务</option>
+                                                            <option value="2">每天</option>
+                                                            <option value="3">每周</option>
+                                                            <option value="4">每月</option>
+                                                        </select>
+                                                    </div>
+                                                    <input name="type3" type="hidden" value="1" class="form-control" placeholder="">
+
+                                                    <div class="form-group">
+                                                        <label>开始时间</label>
+                                                        <input name="starttime" type="date" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>结束时间</label>
+                                                        <input name="endtime" type="date" class="form-control" placeholder="">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>任务附件（不传则保持原附件不变）</label>
+                                                        <input name="file1" type="file" accept="image/*" multiple class="form-control" placeholder="">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-default btn-block">提交</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- /.row (nested) -->
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                    </div>
+                    <!-- /. PAGE INNER  -->
+                </div>
+                <!-- /. PAGE WRAPPER  -->
+        </div>
+        <!-- /. WRAPPER  -->
+        <!-- JS Scripts-->
+        <!-- jQuery Js -->
+        <%- include("../common/footerJs")%>
+
+            <script>
+                jQuery(document).ready(function () {
+
+                    /*
+                        Fullscreen background
+                    */
+                    /*
+                        Form validation
+                    */
+                    var starttime = new Date("<%=results.starttime%>").format("yyyy-MM-dd");
+                    $("input[name='starttime']").val(starttime)
+                    var endtime = new Date("<%=results.endtime%>").format("yyyy-MM-dd");
+                    $("input[name='endtime']").val(endtime)
+                    $('input').on(
+                        'focus',
+                        function () {
+                            $(this).removeClass('input-error');
+                        });
+                    $('#form').on('submit', function (e) {
+                        $(this).find('input[type!="file"], textarea').each(function () {
+                            if ($(this).val() == "") {
+                                e.preventDefault();
+                                $(this).addClass('input-error');
+                            } else {
+                                $(this).removeClass('input-error');
+                            }
+                        });
+
+                    });
+
+
+                });
+
+                if (enableWangEditor) {
+                    var previousContent = '<%-results.descs%>';
+                    enableWangEditor("contentDiv", "content", previousContent)
+                } else {
+                    alert("加载文本编辑器失败")
+                }
+            </script>
+
+
+    </body>
+
+</html>

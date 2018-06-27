@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<%- include("../common/header")%>
+
+    <body>
+        <div id="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- /. NAV SIDE  -->
+                <div id="page-wrapper">
+                    <div class="header">
+                        <h1 class="page-header">
+                            轮播图列表
+                            <small>轮播图列表</small>
+                        </h1>
+                    </div>
+
+                    <div id="page-inner">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Advanced Tables -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a class="btn cst_first btn-primary ">&lt;&lt;&lt;首页</a>
+                                        <a class="btn cst_pre btn-primary ">&lt;上一页</a>
+                                        <span id="pageInfo"></span>
+                                        <a class="btn cst_next btn-primary ">下一页&gt;</a>
+                                        <a class="btn cst_last btn-primary ">尾页&gt;&gt;&gt;</a>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                <thead>
+                                                    <tr>
+                                                        <th>操作</th>
+                                                        <th>标题</th>
+                                                        <th>详细内容</th>
+                                                        <th>排序</th>
+                                                        <th>图片</th>
+                                                        <th>创建时间</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tableBody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Advanced Tables -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer>
+                        <%- include("../common/footer") %>
+                    </footer>
+                </div>
+                <!-- /. PAGE INNER  -->
+        </div>
+
+        <%- include("../common/footerJs")%>
+
+            <script>
+                var pageSize = 10;
+                var pageNo = 0;
+                var total = 0;
+                var totalPage = 0;
+                var tpl = $(
+                    '<tr class="odd gradeX">'+
+                        '<td><i onclick="del(this)" title="删除" class="fa fa-minus" style="font-size: 22px;color: red;margin-right:5px;"></i>'+
+                        '<i onclick="edit(this)" title="编辑" class="fa fa-edit" style="font-size: 22px;color: green;"></i></td>'
+                        +'<td></td><td></td><td></td><td></td><td></td></tr>'
+                );
+
+                function query() {
+                    $.ajax({
+                        "url": "/banner/page?pageNumber=" + pageNo + "&pageSize=10",
+                        success: function (data) {
+                            var list = data.data;
+                            $(".tableBody").html("");
+                            for (var i = 0; i < list.length; i++) {
+                                var tr = tpl.clone();
+                                
+                                list[i].createdAt=new Date(list[i].createdAt).format("yyyy-MM-dd");
+                                list[i].descs=list[i].descs.length>20?list[i].descs.substr(0,20)+"...":list[i].descs;
+                                list[i].descs=$("<p>"+list[i].descs+"</p>").text();
+                                $($("td", tr)[0]).attr("id", list[i].id);
+                                $("td", tr)[1].innerText = list[i].name;
+                                $("td", tr)[2].innerText = list[i].descs;
+                                $("td", tr)[3].innerText = list[i].orders;
+                                $("td", tr)[5].innerText = list[i].createdAt;
+                                if(list[i].imgs)
+                                list[i].imgs.forEach(imgURL => {
+                                    var img = document.createElement("img");
+                                    img.setAttribute("style",
+                                        "width:30px;height:30px;object-fit:cover");
+                                    img.setAttribute("class","autoScale");
+                                    img.src = imgURL;
+                                    img.onclick=function(){
+                                        window.open(imgURL,"_blank")
+                                    }
+                                    $("td", tr)[4].appendChild(img);
+                                });
+                                $(".tableBody").append(tr);
+                            }
+                            total = data.counts;
+                            totalPage = Math.floor(total / pageSize);
+                            if (total % pageSize == 0)
+                                totalPage--;
+                            $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" +
+                                pageSize + "条，共" + total + "条");
+                            resetBtnState();
+                        }
+                    });
+                }
+
+                function edit(e) {
+                    window.location.href = "/admin/bannerEdit?id=" + $(e).parent().attr("id");
+                }
+                function del(e) {
+                    if(confirm("确认删除?"))
+                    window.location.href = "/admin/bannerDel?id=" + $(e).parent().attr("id");
+                }
+                
+                function resetBtnState() {
+                    if (pageNo == totalPage) {
+                        $(".cst_next").addClass("disabled");
+                    } else {
+                        $(".cst_next").removeClass("disabled");
+                    }
+                    if (pageNo == 0) {
+                        $(".cst_pre").addClass("disabled");
+                    } else {
+                        $(".cst_pre").removeClass("disabled");
+                    }
+                }
+                $(".cst_first").click(function () {
+                    pageNo = 0;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                });
+
+                $(".cst_pre").click(function () {
+                    pageNo--;
+                    pageNo = pageNo < 0 ? 0 : pageNo;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                })
+
+                $(".cst_next").click(function () {
+                    pageNo++;
+                    pageNo = pageNo > totalPage ? totalPage : pageNo;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                })
+
+                $(".cst_last").click(function () {
+                    pageNo = totalPage;
+                    query();
+                    $("#pageInfo").text("第" + (pageNo + 1) + "页,共" + (totalPage + 1) + "页，每页" + pageSize +
+                        "条，共" + total + "条");
+                    resetBtnState();
+                })
+                $(document).ready(function () {
+                    query();
+                    resetBtnState();
+                });
+            </script>
+
+            <!-- Custom Js -->
+            <script src="../assets/js/custom-scripts.js"></script>
+
+
+    </body>
+
+</html>

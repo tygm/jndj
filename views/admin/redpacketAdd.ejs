@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<%- include("../common/header"); %>
+
+    <body>
+        <div id="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- /. NAV SIDE  -->
+                <div id="page-wrapper">
+                    <div class="header">
+                        <h1 class="page-header">
+                            添加红包
+                            <small></small>
+                        </h1>
+
+                    </div>
+
+                    <div id="page-inner">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        添加
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-bottom">
+                                                <form id="form" role="form" method="POST" action="/redpacket/add" enctype="multipart/form-data">
+                                                    <div class="form-group">
+                                                        <label>名称</label>
+                                                        <input name="name" class="form-control" placeholder="">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>标题</label>
+                                                        <input name="title" class="form-control" placeholder="">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>描述</label>
+                                                        <input name="descs" class="form-control" placeholder="">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>类型</label>
+                                                        <select name="type" class="form-control">
+                                                            <option value="1">平分</option>
+                                                            <option value="2">拱手气</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>总金额</label>
+                                                        <input name="total" type="number" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>份数</label>
+                                                        <input name="dividers" type="number" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>所属商家</label>
+                                                        <select name="placeId" class="form-control" id="placelist">
+                                        
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>使用规则</label>
+                                                        <input name="rules" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>使用须知</label>
+                                                        <input name="notice" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>宣传图</label>
+                                                        <input name="file1" type="file" accept="image/*" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>开始时间</label>
+                                                        <input name="starttime" type="date" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>结束时间</label>
+                                                        <input name="endtime" type="date" class="form-control" placeholder="">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-default btn-block">提交</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- /.row (nested) -->
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                    </div>
+                    <!-- /. PAGE INNER  -->
+                </div>
+                <!-- /. PAGE WRAPPER  -->
+        </div>
+        <!-- /. WRAPPER  -->
+        <!-- JS Scripts-->
+        <!-- jQuery Js -->
+        <script src="../assets/js/jquery-1.11.1.min.js"></script>
+
+        <script>
+            jQuery(document).ready(function () {
+                $.ajax({url:"/place/listAllSimple",success:data=>{
+                    if(data&&data.results){
+                        data.results.forEach(result => {
+                            $("#placelist").append("<option value='"+result.id+"'>"+result.name+"</option>");
+                        });
+                    }
+                }})
+                /*
+                    Fullscreen background
+                */
+                /*
+                    Form validation
+                */
+                $('input').on(
+                    'focus',
+                    function () {
+                        $(this).removeClass('input-error');
+                    });
+                $('#form').on('submit', function (e) {
+                    $(this).find('input, textarea').each(function () {
+                        if ($(this).val() == "") {
+                            e.preventDefault();
+                            $(this).addClass('input-error');
+                        } else {
+                            $(this).removeClass('input-error');
+                        }
+                    });
+
+                });
+
+
+            });
+        </script>
+        <script src="../assets/js/bmob-min.js"></script>
+        <!-- Bootstrap Js -->
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <!-- Metis Menu Js -->
+        <script src="../assets/js/jquery.metisMenu.js"></script>
+        <!-- Custom Js -->
+        <script src="../assets/js/custom-scripts.js"></script>
+        <script src="../assets/js/scripts.js"></script>
+
+
+
+    </body>
+
+</html>

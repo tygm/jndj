@@ -260,6 +260,8 @@ router.get("/page", function (req, res, next) {
                 else {
                     let host = req.headers.host;
                     results.forEach(result => {
+                        if(!result.position1Desc)
+                            result.position1Desc=[];
                         try {
                             result.descs = JSON.parse(result.descs);
                             result.total = result.periodCount;
